@@ -7,16 +7,27 @@ public class Player : MonoBehaviour
     public Rigidbody2D rb;
     public PlayerInput playerInput;
 
+
+    [Header("Movement Variables")]
     public float speed;
+    public float jumpForce;
+
     public int facingDirection = 1; 
-
-
     public Vector2 moveInput;
+
+
+    [Header("Ground Check")]
+    public Transform groundCheck;
+    public float groundCheckRadius;
+    public LayerMask groundLayer;
+    private bool isGrounded;
+
 
     // .........
 
     void Update()
     {
+        CheckGrounded();
         Flip();    
     }
 
@@ -28,7 +39,12 @@ public class Player : MonoBehaviour
         rb.linearVelocity = new Vector2(targetSpeed, rb.linearVelocity.y);   
     }
 
+    void CheckGrounded() 
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+    }
 
+    
 
 
     void Flip() 
@@ -55,6 +71,24 @@ public class Player : MonoBehaviour
     public void OnMove (InputValue value)
     {
         moveInput = value.Get<Vector2>();
+    }
+
+
+    public void OnJump(InputValue value) 
+    {
+        if (value.isPressed && isGrounded) 
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        }
+        
+
+    }
+
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(groundCheck.position, groundCheckRadius);
     }
 }
  
