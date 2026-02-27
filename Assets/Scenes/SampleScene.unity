@@ -630,7 +630,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &1569142080
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -680,6 +680,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6481fac0b41d7554cb840318fce3284f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  rb: {fileID: 1569142079}
+  speed: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
