@@ -708,6 +708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   rb: {fileID: 1569142079}
   playerInput: {fileID: 1569142082}
+  anim: {fileID: 271140228}
   speed: 5
   jumpForce: 20
   jumpCutMultiplier: 0.5
