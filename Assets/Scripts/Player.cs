@@ -1,20 +1,32 @@
+using NUnit.Framework.Internal.Commands;
 using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    [Header("Components")]
     public Rigidbody2D rb;
     public PlayerInput playerInput;
-
+    public Animator anim;
 
     [Header("Movement Variables")]
     public float speed;
     public float jumpForce;
+    public float jumpCutMultiplier = .5f;
+    public float normalGravity;
+    public float fallGravity;
+    public float jumpGravity;
+
+
 
     public int facingDirection = 1; 
+    
+    
+    //Inputs !! 
     public Vector2 moveInput;
-
+    public bool jumpPressed;
+    public bool jumpReleased;
 
     [Header("Ground Check")]
     public Transform groundCheck;
@@ -25,9 +37,15 @@ public class Player : MonoBehaviour
 
     // .........
 
+    private void Start()
+    {
+        rb.gravityScale = normalGravity;
+    }
+
+
     void Update()
     {
-        CheckGrounded();
+        HandleAnimations(); 
         Flip();    
     }
 
@@ -35,8 +53,52 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        ApplyVariableGravity();
+        CheckGrounded();
+        HandleMovement();
+        HandleJump();
+    }
+
+
+    private void HandleMovement()
+    {
         float targetSpeed = moveInput.x * speed;
-        rb.linearVelocity = new Vector2(targetSpeed, rb.linearVelocity.y);   
+        rb.linearVelocity = new Vector2(targetSpeed, rb.linearVelocity.y);
+    }
+
+    private void HandleJump()
+    {
+        if (jumpPressed && isGrounded)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            jumpPressed = false;
+            jumpReleased = false;   
+        }
+        if (jumpReleased)
+        {
+            if (rb.linearVelocity.y > 0) // si todavia sigue subiendo 
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCutMultiplier);
+            }
+            jumpReleased = false;
+        }
+    }
+
+    //función para declarar el tipo de gravedad a la cual sometemos al personaje dependiendo del momento en el q está.
+    void ApplyVariableGravity() 
+    {
+        if (rb.linearVelocity.y < -0.1f) // cayendo 
+        {
+            rb.gravityScale = fallGravity;
+        }
+        else if (rb.linearVelocity.y > 0.1f) //saltando 
+        {
+            rb.gravityScale = jumpGravity;
+        }
+        else
+        {
+            rb.gravityScale = normalGravity; //chill
+        }
     }
 
     void CheckGrounded() 
@@ -45,7 +107,16 @@ public class Player : MonoBehaviour
     }
 
     
+    void HandleAnimations()
+    {
+        anim.SetBool("isJumping", rb.linearVelocity.y > .1f);
+        anim.SetBool("isGrounded", isGrounded);
 
+        anim.SetFloat("yVelocity", rb.linearVelocity.y); 
+
+        anim.SetBool("isIdle", Mathf.Abs(moveInput.x) < .1f && isGrounded);
+        anim.SetBool("isWalking", Mathf.Abs(moveInput.x) > .1f && isGrounded);
+    }
 
     void Flip() 
     {
@@ -76,12 +147,15 @@ public class Player : MonoBehaviour
 
     public void OnJump(InputValue value) 
     {
-        if (value.isPressed && isGrounded) 
+        if (value.isPressed) 
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            jumpPressed = true;
+            jumpReleased = false;
         }
-        
-
+        else // si cortamos el salto 
+        {
+            jumpReleased = true;
+        }
     }
 
     
