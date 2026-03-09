@@ -195,7 +195,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 34
-    OrthographicSize: 5.2
+    OrthographicSize: 6
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -482,7 +482,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5.625
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -552,7 +552,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
   m_Name: 
@@ -3697,7 +3697,6 @@ Transform:
   - {fileID: 1232551757}
   - {fileID: 1646944056}
   - {fileID: 1896546334}
-  - {fileID: 1399497124}
   m_Father: {fileID: 908311205}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232551756
@@ -3910,12 +3909,12 @@ Transform:
   m_GameObject: {fileID: 1399497123}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.6909893, y: -5.7, z: 0}
+  m_LocalPosition: {x: 0.07887745, y: -16.76, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 907513046}
-  m_Father: {fileID: 1129874830}
+  m_Father: {fileID: 1896546334}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1399497125
 SpriteRenderer:
@@ -4184,7 +4183,8 @@ MonoBehaviour:
   rb: {fileID: 1569142079}
   playerInput: {fileID: 1569142082}
   anim: {fileID: 271140228}
-  speed: 5
+  walkSpeed: 5
+  runSpeed: 8
   jumpForce: 20
   jumpCutMultiplier: 0.5
   normalGravity: 6
@@ -4192,6 +4192,7 @@ MonoBehaviour:
   jumpGravity: 4
   facingDirection: 1
   moveInput: {x: 0, y: 0}
+  runPressed: 0
   jumpPressed: 0
   jumpReleased: 0
   groundCheck: {fileID: 1915262025}
@@ -6985,6 +6986,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 647432275}
+  - {fileID: 1399497124}
   m_Father: {fileID: 1129874830}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1896546335
@@ -7055,6 +7057,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1903875017}
+  - component: {fileID: 1903875018}
   m_Layer: 0
   m_Name: '[Camaras]'
   m_TagString: Untagged
@@ -7080,6 +7083,30 @@ Transform:
   - {fileID: 1127058800}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1903875018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903875016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c64b3fb188af8f4985fb5c230e13b97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParralalexManager
+  layers:
+  - layer: {fileID: 1658844049}
+    parallaxFactor: 0.1
+  - layer: {fileID: 1896546334}
+    parallaxFactor: 0.7
+  - layer: {fileID: 1646944056}
+    parallaxFactor: 0.8
+  - layer: {fileID: 1232551757}
+    parallaxFactor: 0.9
+  - layer: {fileID: 1335294073}
+    parallaxFactor: 1
+  camTransform: {fileID: 519420032}
 --- !u!1 &1906788785
 GameObject:
   m_ObjectHideFlags: 0
